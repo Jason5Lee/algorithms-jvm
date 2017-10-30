@@ -135,4 +135,72 @@ public class SortableArray<T> {
 
         return result;
     }
+
+    /**
+     * Swap two elements of the array of specified index.
+     * @param p The index of one of the element.
+     * @param q The index of another element.
+     */
+    public void swap(int p, int q) {
+        T tmp = array[p];
+        array[p] = array[q];
+        array[q] = tmp;
+    }
+
+    private void compareAndSwap(int p, int q) {
+        assert p < q;
+        if (comparator.compare(array[p], array[q]) > 0)
+            swap(p, q);
+    }
+    private void middleOfFive(int start) {
+        compareAndSwap(start, start+1);
+        compareAndSwap(start+2, start+3);
+        compareAndSwap(start, start+2);
+        compareAndSwap(start+1, start+3);
+        compareAndSwap(start+1, start+2);
+        compareAndSwap(start+2, start+4);
+        compareAndSwap(start+1, start+2);
+    }
+
+    // Partition the array using BFPRT algorithm.
+    private int BFPRTPartition(int l, int r) {
+        int newR = r;
+        while (newR - l > 5) {
+            int ptr = l;
+            for (int i = l; i + 5 < newR; i += 5) {
+                middleOfFive(i);
+                swap(ptr++, i + 2);
+            }
+            newR = ptr;
+        }
+
+        T pv = array[l];
+        int ptr = l;
+        for (int i = l + 1; i < r; ++i) {
+            if (comparator.compare(array[i], pv) < 0) {
+                swap(i, ++ptr);
+            }
+        }
+        swap(l, ptr);
+        return ptr;
+    }
+
+    /**
+     * Rearrange the array, so that array[k] is larger or equal than any
+     * element previous, and smaller or equal than any element after,
+     * using BFPRT Algorithm.
+     * @param k the position of partition.
+     */
+    public void partitionAt(int k) {
+        int l = 0, r = array.length;
+        for (;;) {
+            int pv = BFPRTPartition(l, r);
+            if (pv == k)
+                break;
+            if (pv < k)
+                l = pv + 1;
+            else
+                r = pv;
+        }
+    }
 }

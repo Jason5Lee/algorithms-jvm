@@ -12,5 +12,4 @@ A Java library of some algorithms.
 
 ### SortableArray
 
-* Add *BFPRT* Algorithm.
 * Add a method that counts the number of inversion pairs using merge sort.

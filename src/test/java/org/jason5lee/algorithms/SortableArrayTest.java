@@ -89,4 +89,14 @@ public class SortableArrayTest {
         Assert.assertEquals((Object)arr, acw.getArray());
         Assert.assertArrayEquals(new int[] {0, 4, 3, 2, 5, 0, 1, 2, 4}, dis);
     }
+
+    @Test
+    public void testPartitionAt() {
+        Integer[] arr = new Integer[] { 1, 7, 4, 2, 3, 5, 2};
+        SortableArray<Integer> acw = SortableArray.of(arr);
+        acw.partitionAt(3);
+        Assert.assertEquals(3, arr[3].intValue());
+        acw.partitionAt(5);
+        Assert.assertEquals(5, arr[5].intValue());
+    }
 }
